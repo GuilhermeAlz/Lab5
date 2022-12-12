@@ -1,10 +1,12 @@
 package documin.elementos;
 
+import java.text.Collator;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TermosElement implements Elemento {
     private String valor;
@@ -21,25 +23,35 @@ public class TermosElement implements Elemento {
 
     @Override
     public String getRepresentacaoResumida() {
-        String[] palavrasSep = this.valor.split(this.separador);
-        List<String> palavras = Arrays.asList(palavrasSep);
-        for (String palavra : palavras) {
-            palavra = palavra.strip();
+        String[] palavras = this.valor.split(this.separador);
+        for (int i = 0; i < palavras.length; i++) {
+            palavras[i] = palavras[i].strip();
         }
 
         if (this.ordem.equals("nenhum")) {
             return this.valor;
         } else if (this.ordem.equals("tamanho")) {
-            return this.valor;
-        } else if (this.ordem.equals("alfabetica")) {
-            Collections.sort(palavras);
+            String[] palavrasAlf = tamanho(palavras);
 
             String out = "";
-            for (int i = 0; i < palavras.size(); i++) {
-                if (i != palavras.size() - 1) {
-                    out += palavras.get(i) + " / ";
+            for (int i = 0; i < palavrasAlf.length; i++) {
+                if (i != palavrasAlf.length - 1) {
+                    out += palavrasAlf[i] + " / ";
                 } else {
-                    out += palavras.get(i);
+                    out += palavrasAlf[i];
+                }
+            }
+
+            return out;
+        } else if (this.ordem.equals("alfabetica")) {
+            Arrays.sort(palavras, Collator.getInstance());
+
+            String out = "";
+            for (int i = 0; i < palavras.length; i++) {
+                if (i != palavras.length - 1) {
+                    out += palavras[i] + " / ";
+                } else {
+                    out += palavras[i];
                 }
             }
 
@@ -56,5 +68,20 @@ public class TermosElement implements Elemento {
 
     private static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    private static String[] tamanho(String[] palavras) {
+        for (int i = 0; i < palavras.length; i++) {
+            int keyLoop = palavras[i].length();
+            String key = palavras[i];
+            int j = i - 1;
+
+            while (j >= 0 && palavras[j].length() < keyLoop) {
+                palavras[j + 1] = palavras[j];
+                j = j - 1;
+            }
+            palavras[j + 1] = key;
+        }
+        return palavras;
     }
 }
