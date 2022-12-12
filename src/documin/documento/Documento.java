@@ -35,27 +35,39 @@ public class Documento {
     }
 
     public int criarTexto(String valor, int prioridade) {
-        this.elementos.add(new TextoElement(valor, prioridade));
-        
-        return this.elementos.size() - 1;
+        if (this.elementos.size() < this.tamanho) {
+            this.elementos.add(new TextoElement(valor, prioridade));
+            return this.elementos.size() - 1;
+        } else {
+            throw new IllegalArgumentException("Tamanho excedido");
+        }
     }
 
     public int criarTitulo(String valor, int prioridade, int nivel, boolean linkavel) {
-        this.elementos.add(new TituloElement(valor, prioridade, nivel, linkavel));
-
-        return this.elementos.size() - 1;
+        if (this.elementos.size() < this.tamanho) {
+            this.elementos.add(new TituloElement(valor, prioridade, nivel, linkavel));
+            return this.elementos.size() - 1;
+        } else {
+            throw new IllegalArgumentException("Tamanho excedido");
+        }
     }
 
     public int criarLista(String valor, int prioridade, String separador, String charLista) {
-        this.elementos.add(new ListaElement(valor, prioridade, separador, charLista));
-
-        return this.elementos.size() - 1;
+        if (this.elementos.size() < this.tamanho) {
+            this.elementos.add(new ListaElement(valor, prioridade, separador, charLista));
+            return this.elementos.size() - 1;
+        } else {
+            throw new IllegalArgumentException("Tamanho excedido");
+        }
     }
 
     public int criarTermos(String valor, int prioridade, String separador, String ordem) {
-        this.elementos.add(new TermosElement(valor, prioridade, separador, ordem));
-
-        return this.elementos.size() - 1;
+        if (this.elementos.size() < this.tamanho) {
+            this.elementos.add(new TermosElement(valor, prioridade, separador, ordem));
+            return this.elementos.size() - 1;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public String pegarRepresentacaoCompleta(int elementoPosicao) {
