@@ -31,14 +31,14 @@ public class TermosElement implements Elemento {
         if (this.ordem.equals("nenhum")) {
             return this.valor;
         } else if (this.ordem.equals("tamanho")) {
-            String[] palavrasAlf = tamanho(palavras);
+            String[] palavrasTam = tamanho(palavras);
 
             String out = "";
-            for (int i = 0; i < palavrasAlf.length; i++) {
-                if (i != palavrasAlf.length - 1) {
-                    out += palavrasAlf[i] + " / ";
+            for (int i = 0; i < palavrasTam.length; i++) {
+                if (i != palavrasTam.length - 1) {
+                    out += palavrasTam[i] + " / ";
                 } else {
-                    out += palavrasAlf[i];
+                    out += palavrasTam[i];
                 }
             }
 
@@ -63,7 +63,53 @@ public class TermosElement implements Elemento {
 
     @Override
     public String getRepresentacaoCompleta() {
-        return null;
+        String[] palavras = this.valor.split(this.separador);
+        for (int i = 0; i < palavras.length; i++) {
+            palavras[i] = palavras[i].strip();
+        }
+
+        if (this.ordem.equals("nenhum")) {
+            String out = "Total termos: " + palavras.length + "\n- ";
+            
+            for (int i = 0; i < palavras.length; i ++) {
+                if (i != palavras.length - 1) {
+                    out += palavras[i] + ", ";
+                } else {
+                    out += palavras[i];
+                }
+            }
+
+            return out;
+        } else if (this.ordem.equals("tamanho")) {
+            String[] palavrasTam = tamanho(palavras);
+            String out = "Total termos: " + palavrasTam.length + "\n- ";
+            
+            for (int i = 0; i < palavrasTam.length; i ++) {
+                if (i != palavrasTam.length - 1) {
+                    out += palavrasTam[i] + ", ";
+                } else {
+                    out += palavrasTam[i];
+                }
+            }
+
+            return out;
+        } else if (this.ordem.equals("alfabetica")) {
+            Arrays.sort(palavras, Collator.getInstance());
+
+            String out = "Total termos: " + palavras.length + "\n- ";
+            
+            for (int i = 0; i < palavras.length; i ++) {
+                if (i != palavras.length - 1) {
+                    out += palavras[i] + ", ";
+                } else {
+                    out += palavras[i];
+                }
+            }
+
+            return out;
+        } else {
+            throw new IllegalArgumentException("Ordem invalida");
+        }
     }
 
     private static String removerAcentos(String str) {
