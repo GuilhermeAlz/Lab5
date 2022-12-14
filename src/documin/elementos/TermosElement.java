@@ -130,4 +130,9 @@ public class TermosElement implements Elemento {
         }
         return palavras;
     }
+
+    @Override
+    public int getPrioridade() {
+        return this.prioridade;
+    }
 }

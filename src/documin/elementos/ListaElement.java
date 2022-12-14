@@ -32,4 +32,9 @@ public class ListaElement implements Elemento {
 
         return out;
     }
+
+    @Override
+    public int getPrioridade() {
+        return this.prioridade;
+    }
 }

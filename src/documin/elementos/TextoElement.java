@@ -18,4 +18,9 @@ public class TextoElement implements Elemento {
     public String getRepresentacaoCompleta() {
         return this.valor;
     }
+
+    @Override
+    public int getPrioridade() {
+        return this.prioridade;
+    }
 }

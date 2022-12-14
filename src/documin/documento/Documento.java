@@ -100,4 +100,51 @@ public class Documento {
         this.elementos.set(elementoPosicao, this.elementos.get(elementoPosicao + 1));
         this.elementos.set(elementoPosicao + 1, temp);
     }
+
+    public String getNome() {
+        return this.titulo;
+    }
+
+    public int getMediaPrioridade() {
+        int total = 0;
+        int numElementos = 0;
+
+        for (Elemento elm : this.elementos) {
+            total += elm.getPrioridade();
+            numElementos += 1;
+        }
+
+        total = total / numElementos;
+        return total;
+    }
+
+    public String getRepCompAtalho() {
+        String out = "";
+
+        for (Elemento elm : this.elementos) {
+            if (elm.getPrioridade() == 4 || elm.getPrioridade() == 5) {
+                out += elm.getRepresentacaoCompleta();
+            }
+        }
+
+        return out;
+    }
+
+    public String getRepResAtalho() {
+        String out = "";
+
+        for (Elemento elm : this.elementos) {
+            if (elm.getPrioridade() == 4 || elm.getPrioridade() == 5) {
+                out += elm.getRepresentacaoResumida();
+            }
+        }
+
+        return out;
+    }
+
+    public int criaAtalho(Documento doc) {
+        this.elementos.add(new AtalhoElement(doc));
+
+        return this.elementos.size() - 1;
+    }
 }

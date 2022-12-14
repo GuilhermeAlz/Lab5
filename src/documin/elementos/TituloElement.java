@@ -26,4 +26,9 @@ public class TituloElement implements Elemento {
             return this.nivel + ". " + this.valor;
         }
     }
+
+    @Override
+    public int getPrioridade() {
+        return this.prioridade;
+    }
 }

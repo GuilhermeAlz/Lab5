@@ -102,7 +102,11 @@ public class DocumentoController {
         this.documentos.get(tituloDoc).moverParaCima(elementoPosicao);
     }
 
-    void moverParaBaixo(String tituloDoc, int elementoPosicao) {
+    public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
         this.documentos.get(tituloDoc).moverParaBaixo(elementoPosicao);
+    }
+
+    public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
+        return this.documentos.get(tituloDoc).criaAtalho(this.documentos.get(tituloDocReferenciado));
     }
 }
