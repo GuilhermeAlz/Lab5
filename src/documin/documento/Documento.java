@@ -8,17 +8,20 @@ public class Documento {
     private String titulo;
     private ArrayList<Elemento> elementos;
     private int tamanho;
+    private boolean ehAtalho;
     
 
     public Documento(String titulo) {
         this.titulo = titulo;
         this.elementos = new ArrayList<Elemento>();
+        this.ehAtalho = false;
     }
 
     public Documento(String titulo, int tamanho) {
         this.titulo = titulo;
         this.elementos = new ArrayList<Elemento>();
         this.tamanho = tamanho;
+        this.ehAtalho = false;
     }
 
     public int getNumElementos() {
@@ -146,5 +149,21 @@ public class Documento {
         this.elementos.add(new AtalhoElement(doc));
 
         return this.elementos.size() - 1;
+    }
+
+    public ArrayList<Elemento> getElementos() {
+        return this.elementos;
+    }
+
+    public boolean getEhAtalho() {
+        return this.ehAtalho;
+    }
+
+    public void atualizaEhAtalho(boolean boo) {
+        this.ehAtalho = boo;
+    }
+
+    public Elemento getElemento(int posicao) {
+        return this.elementos.get(posicao);
     }
 }

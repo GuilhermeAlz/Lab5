@@ -1,10 +1,12 @@
 package documin.documento;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 public class DocumentoController {
     private HashMap<String, Documento> documentos;
+    private ArrayList<String> documentosComAtalho;
 
     public DocumentoController() {
         this.documentos = new HashMap<String, Documento>();
@@ -107,6 +109,11 @@ public class DocumentoController {
     }
 
     public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
-        return this.documentos.get(tituloDoc).criaAtalho(this.documentos.get(tituloDocReferenciado));
+        if (!this.documentos.get(tituloDoc).getEhAtalho()) {
+            this.documentos.get(tituloDoc).atualizaEhAtalho(true);
+            return this.documentos.get(tituloDoc).criaAtalho(this.documentos.get(tituloDocReferenciado));
+        } else {
+            throw new IllegalStateException("O documento já é um atalho, logo nao pode ter atalhos adicionados");
+        }
     }
 }
