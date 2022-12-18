@@ -166,4 +166,73 @@ public class Documento {
     public Elemento getElemento(int posicao) {
         return this.elementos.get(posicao);
     }
+
+    public boolean temAtalho() {
+        for (Elemento elemento : this.elementos) {
+            if (elemento instanceof AtalhoElement) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] getVisaoCompleta() {
+        String[] visao = new String[this.elementos.size()];
+        int indice = 0;
+
+        for (Elemento elemento : this.elementos) {
+            visao[indice] = elemento.getRepresentacaoCompleta();
+            indice += 1;
+        }
+        return visao;
+    }
+
+    public String[] getVisaoResumida() {
+        String[] visao = new String[this.elementos.size()];
+        int indice = 0;
+
+        for (Elemento elemento : this.elementos) {
+            visao[indice] = elemento.getRepresentacaoResumida();
+            indice += 1;
+        }
+        return visao;
+    }
+
+    public String[] getVisaoPrioritaria(int prioridade) {
+        int tamanho = 0;
+        for(Elemento elemento : this.elementos) {
+            if (elemento.getPrioridade() >= prioridade) {
+                tamanho += 1;
+            }
+        }
+
+        String[] visao = new String[tamanho];
+        int indice = 0;
+        for (Elemento elemento : this.elementos) {
+            if (elemento.getPrioridade() >= prioridade) {
+                visao[indice] = elemento.getRepresentacaoCompleta();
+                indice += 1;
+            }
+        }
+        return visao;
+    }
+
+    public String[] getVisaoTitulos() {
+        int tamanho = 0;
+        for(Elemento elemento : this.elementos) {
+            if (elemento instanceof TituloElement) {
+                tamanho += 1;
+            }
+        }
+
+        String[] visao = new String[tamanho];
+        int indice = 0;
+        for (Elemento elemento : this.elementos) {
+            if (elemento instanceof TituloElement) {
+                visao[indice] = elemento.getRepresentacaoResumida();
+                indice += 1;
+            }
+        }
+        return visao;
+    }
 }

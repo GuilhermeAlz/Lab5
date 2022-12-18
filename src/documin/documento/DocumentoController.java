@@ -6,10 +6,11 @@ import java.util.NoSuchElementException;
 
 public class DocumentoController {
     private HashMap<String, Documento> documentos;
-    private ArrayList<String> documentosComAtalho;
+    private ArrayList<Visao> visoes;
 
     public DocumentoController() {
         this.documentos = new HashMap<String, Documento>();
+        this.visoes = new ArrayList<Visao>();
     }
 
     public boolean criarDocumento(String titulo) {
@@ -92,7 +93,7 @@ public class DocumentoController {
         return this.documentos.get(tituloDoc).pegarRepresentacaoCompleta(elementoPosicao);
     }
 
-    public String pegarrepresentacaoResumida(String tituloDoc, int elementoPosicao) {
+    public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
         return this.documentos.get(tituloDoc).pegarRepresentacaoResumida(elementoPosicao);
     }
 
@@ -110,10 +111,46 @@ public class DocumentoController {
 
     public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
         if (!this.documentos.get(tituloDoc).getEhAtalho()) {
-            this.documentos.get(tituloDoc).atualizaEhAtalho(true);
-            return this.documentos.get(tituloDoc).criaAtalho(this.documentos.get(tituloDocReferenciado));
+            if (!this.documentos.get(tituloDocReferenciado).temAtalho()) {
+                this.documentos.get(tituloDocReferenciado).atualizaEhAtalho(true);
+                return this.documentos.get(tituloDoc).criaAtalho(this.documentos.get(tituloDocReferenciado));
+            } else {
+                throw new IllegalArgumentException("O documento referenciado tem atalhos, logo nao pode se tornar um atalho");
+            }
         } else {
             throw new IllegalStateException("O documento já é um atalho, logo nao pode ter atalhos adicionados");
         }
+    }
+
+    public int criarVisaoCompleta(String tituloDoc) {
+        Visao visao = new Visao(this.documentos.get(tituloDoc).getNumElementos());
+        visao.addVisao(this.documentos.get(tituloDoc).getVisaoCompleta());
+        this.visoes.add(visao);
+        return this.visoes.size() - 1;
+    }
+
+    public int criarVisaoResumida(String tituloDoc) {
+        Visao visao = new Visao(this.documentos.get(tituloDoc).getNumElementos());
+        visao.addVisao(this.documentos.get(tituloDoc).getVisaoResumida());
+        this.visoes.add(visao);
+        return this.visoes.size() - 1;
+    }
+    
+    public int criarVisaoPrioritaria(String tituloDoc, int prioridade) {
+        Visao visao = new Visao(this.documentos.get(tituloDoc).getNumElementos());
+        visao.addVisao(this.documentos.get(tituloDoc).getVisaoPrioritaria(prioridade));
+        this.visoes.add(visao);
+        return this.visoes.size() - 1;
+    }
+
+    public int criarVisaoTitulo(String tituloDoc) {
+        Visao visao = new Visao(this.documentos.get(tituloDoc).getNumElementos());
+        visao.addVisao(this.documentos.get(tituloDoc).getVisaoTitulos());
+        this.visoes.add(visao);
+        return this.visoes.size() - 1;
+    }
+
+    public String[] exibirVisao(int visaoId) {
+        return this.visoes.get(visaoId).getVisao();
     }
 }
